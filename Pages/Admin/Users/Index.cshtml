@@ -1,0 +1,50 @@
+﻿@page
+@model BestShop.Pages.Admin.Users.IndexModel
+@{
+}
+
+<h2 class="my-3">List Users</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Role</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.listUsers)
+        {
+            <tr>
+                <td>@user.id</td>
+                <td>@user.firstName @user.lastName</td>
+                <td>@user.email</td>
+                <td>@user.phone</td>
+                <td>@user.address</td>
+                @if (user.role.Equals("admin"))
+                {
+                    <td><span class="badge bg-danger">@user.role</span></td>
+                }
+                else
+                {
+                    <td><span class="badge bg-primary">@user.role</span></td>
+                }
+                <td>@user.createdAt</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.totalPages; i++)
+        {
+            <li class="page-item"><a class="page-link" href="?page=@(i)">@i</a></li>
+        }
+    </ul>
+</nav>

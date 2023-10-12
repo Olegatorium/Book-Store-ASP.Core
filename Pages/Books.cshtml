@@ -1,0 +1,101 @@
+﻿@page
+@model BestShop.Pages.BooksModel
+@{
+}
+
+<h2 class="rounded text-center text-white p-2" style="background-color: #08618d;">List of Books</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="rounded text-white my-2 p-3 sticky-top" style="background-color: #08618d; top:10px;">
+            <h4 class="mb-3">Advanced Search</h4>
+
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">Search</label>
+                    <input type="text" class="form-control" asp-for="Search" placeholder="Search by Title or Author">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Price</label>
+                    <select class="form-select" asp-for="PriceRange">
+                        <option value="any">Any</option>
+                        <option value="0_50">Under 50$</option>
+                        <option value="50_100">50$ to 100$</option>
+                        <option value="above100">Above 100$</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Pages</label>
+                    <select class="form-select" asp-for="PageRange">
+                        <option value="any">Any</option>
+                        <option value="0_100">Under 100</option>
+                        <option value="100_299">100 to 299</option>
+                        <option value="above300">Above 300</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" asp-for="Category">
+                        <option value="any">Any</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Economics">Economics</option>
+                        <option value="Medicine">Medicine</option>
+                        <option value="History">History</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col d-grid">
+                        <button type="submit" class="btn btn-outline-light">Search</button>
+                    </div>
+                    <div class="col d-grid">
+                        <a class="btn btn-outline-light" href="/Books" role="button">Clear</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table align-middle">
+            <tbody>
+                @foreach (var item in Model.listBooks)
+                {
+                    <tr>
+                        <td style="width:200px">
+                            <img src="/images/books/@item.ImageFileName" class="img-fluid rounded" alt="..." />
+                        </td>
+                        <td>
+                            <h3>@item.Title</h3>
+                            <p>
+                                Authors: @item.Authors<br>
+                                Category: @item.Category<br>
+                                Pages: @item.NumPages
+                            </p>
+                            <h4>@(item.Price)$</h4>
+                            <a class="btn btn-primary btn-sm my-2" href="/BookDetails?id=@(item.Id)" role="button">Details</a>
+                            <button type="button" class="btn btn-warning btn-sm my-2" onclick="addToCart(this, @item.Id)">
+                                Add to Cart <i class="bi bi-cart4"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @for (int i = 1; i <= Model.totalPages; i++)
+                {
+                    <li class="page-item"><a class="page-link" href="?page=@(i)&Search=@(Model.Search)&PriceRange=@(Model.PriceRange)&PageRange=@(Model.PageRange)&Category=@(Model.Category)">@i</a></li>
+                }
+
+            </ul>
+        </nav>
+    </div>
+</div>

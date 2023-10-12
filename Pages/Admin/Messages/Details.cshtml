@@ -1,0 +1,59 @@
+﻿@page
+@model BestShop.Pages.Admin.Messages.DetailsModel
+@{
+}
+
+<h2 class="my-3">Message Details</h2>
+
+<div class="row mb-2">
+	<label class="col-sm-3 col-form-label">ID</label>
+	<div class="col-sm-7">
+		<input type="text" readonly class="form-control-plaintext" value="@Model.messageInfo.Id">
+	</div>
+</div>
+
+<div class="row mb-2">
+	<label class="col-sm-3 col-form-label">Username</label>
+	<div class="col-sm-7">
+		<input type="text" readonly class="form-control-plaintext" value="@Model.messageInfo.FirstName @Model.messageInfo.LastName">
+	</div>
+</div>
+
+<div class="row mb-2">
+	<label class="col-sm-3 col-form-label">Email</label>
+	<div class="col-sm-7">
+		<input type="text" readonly class="form-control-plaintext" value="@Model.messageInfo.Email">
+	</div>
+</div>
+
+<div class="row mb-2">
+	<label class="col-sm-3 col-form-label">Phone</label>
+	<div class="col-sm-7">
+		<input type="text" readonly class="form-control-plaintext" value="@Model.messageInfo.Phone">
+	</div>
+</div>
+
+<div class="row mb-2">
+	<label class="col-sm-3 col-form-label">Subject</label>
+	<div class="col-sm-7">
+		<input type="text" readonly class="form-control-plaintext" value="@Model.messageInfo.Subject">
+	</div>
+</div>
+
+<div class="row mb-2">
+	<label class="col-sm-3 col-form-label">Message</label>
+	<div class="col-sm-7">
+		<textarea readonly class="form-control">@Model.messageInfo.Message</textarea>
+	</div>
+</div>
+
+<div class="row mb-2">
+	<label class="col-sm-3 col-form-label">Created At</label>
+	<div class="col-sm-7">
+		<input type="text" readonly class="form-control-plaintext" value="@Model.messageInfo.CreatedAt">
+	</div>
+</div>
+
+<div class="offset-sm-3 col-sm-7">
+	<a class="btn btn-primary" href="/Admin/Messages/Index" role="button">OK</a>
+</div>

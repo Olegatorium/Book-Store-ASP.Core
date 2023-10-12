@@ -1,0 +1,84 @@
+﻿@page
+@model BestShop.Pages.Client.Orders.DetailsModel
+@{
+}
+
+
+<h3 class="rounded p-2 my-2 text-white text-center" style="background-color: #08618d;">Order Details</h3>
+
+
+<div class="row mb-3 py-3">
+    <div class="col-lg-6">
+        <div class="border rounded p-3 h-100">
+            <h3>Order</h3>
+
+            <table class="table">
+                <tr>
+                    <td>Order ID</td>
+                    <td>@Model.orderInfo.id</td>
+                </tr>
+                <tr>
+                    <td>Order Date</td>
+                    <td>@Model.orderInfo.orderDate</td>
+                </tr>
+                <tr>
+                    <td>Delivery Address</td>
+                    <td>@Model.orderInfo.deliveryAddress</td>
+                </tr>
+                <tr>
+                    <td>Payment Method</td>
+                    <td>@Model.orderInfo.paymentMethod</td>
+                </tr>
+                <tr>
+                    <td>Payment Status</td>
+                    <td>@Model.orderInfo.paymentStatus</td>
+                </tr>
+                <tr>
+                    <td>Order Status</td>
+                    <td> @Model.orderInfo.orderStatus</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th style="width:100px">Units</th>
+            <th style="width:100px">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            decimal subtotal = 0;
+        }
+        @foreach (var item in Model.orderInfo.items)
+        {
+            subtotal += item.unitPrice * item.quantity;
+
+            <tr>
+                <td>
+                    <h3>@item.bookInfo.Title</h3>
+                    @item.bookInfo.Authors<br>
+                    @(item.unitPrice)$
+                </td>
+                <td>@item.quantity</td>
+                <td>@(item.unitPrice * item.quantity)$</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-end m-3">
+    <strong>Subtotal:</strong> @(subtotal)$<br />
+    <strong>Shipping Fee:</strong> @(Model.orderInfo.shippingFee)$<br />
+    <strong>Total:</strong> @(subtotal + Model.orderInfo.shippingFee)$ <br />
+</div>
+
+<div class="m-0">
+    <a href="/Client/Orders/Index" class="btn btn-primary">Back To Orders</a>
+</div>
+

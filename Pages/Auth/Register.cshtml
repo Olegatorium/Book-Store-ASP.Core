@@ -1,0 +1,98 @@
+﻿@page
+@model BestShop.Pages.Auth.RegisterModel
+@{
+}
+
+
+<div class="row">
+	<div class="col-lg-8 mx-auto">
+		<div class="card">
+			<div class="card-body">
+				<h2 class="text-center mb-5">Create new Account</h2>
+
+				@if (Model.errorMessage.Length > 0)
+				{
+					<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+						<strong>@Model.errorMessage</strong>
+						<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+					</div>
+				}
+				else if (Model.successMessage.Length > 0)
+				{
+					<div class='alert alert-success alert-dismissible fade show' role='alert'>
+						<strong>@Model.successMessage</strong>
+						<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+					</div>
+				}
+
+				<form method="post">
+					<div class="row mb-3">
+						<label class="col-sm-4 col-form-label">First Name</label>
+						<div class="col-sm-8">
+							<input class="form-control" asp-for="Firstname">
+							<span asp-validation-for="Firstname" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label class="col-sm-4 col-form-label">Last Name</label>
+						<div class="col-sm-8">
+							<input class="form-control" asp-for="Lastname">
+							<span asp-validation-for="Lastname" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label class="col-sm-4 col-form-label">Email</label>
+						<div class="col-sm-8">
+							<input class="form-control" asp-for="Email">
+							<span asp-validation-for="Email" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label class="col-sm-4 col-form-label">Phone Number</label>
+						<div class="col-sm-8">
+							<input class="form-control" asp-for="Phone">
+							<span asp-validation-for="Phone" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label class="col-sm-4 col-form-label">Address</label>
+						<div class="col-sm-8">
+							<input class="form-control" asp-for="Address">
+							<span asp-validation-for="Address" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label class="col-sm-4 col-form-label">Password</label>
+						<div class="col-sm-8">
+							<input class="form-control" type="password" asp-for="Password">
+							<span asp-validation-for="Password" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label class="col-sm-4 col-form-label">Confirm Password</label>
+						<div class="col-sm-8">
+							<input class="form-control" type="password" asp-for="ConfirmPassword">
+							<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<div class="offset-sm-4 col-sm-4 d-grid">
+							<button type="submit" class="btn btn-primary">Register</button>
+						</div>
+						<div class="col-sm-4 d-grid">
+							<a class="btn btn-outline-primary" href="/" role="button">Cancel</a>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
