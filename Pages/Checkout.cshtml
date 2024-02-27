@@ -80,9 +80,11 @@
             });
         },
         onError(err) {
+            console.error("An error occurred while creating the order:", err);
             document.getElementById("notification-container").innerHTML =
                 '<div class="alert alert-danger" role="alert">Failed to create the order!!!</div>';
         }
+
     });
     paypal_buttons.render('#paypal-button-container');
 </script>

@@ -7,7 +7,7 @@ namespace BestShop.MyHelpers
 	{
 		public static async Task SendEmail(string toEmail, string userName, string subject, string message) 
 		{
-			string apiKey = "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";
+			string apiKey = "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";
 
 			var client = new SendGridClient(apiKey);
 

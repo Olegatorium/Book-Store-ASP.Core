@@ -21,39 +21,18 @@ namespace BestShop.Pages
         public decimal shippingFee = 5;
         public decimal total = 0;
 
-        private Dictionary<String, int> getBookDictionary()
+        BookInfo bookInfo;
+
+        public CartModel() 
         {
-            var bookDictionary = new Dictionary<string, int>();
-
-            // Read shopping cart items from cookie
-            string cookieValue = Request.Cookies["shopping_cart"] ?? "";
-
-            if (cookieValue.Length > 0)
-            {
-                string[] bookIdArray = cookieValue.Split('-');
-
-                for (int i = 0; i < bookIdArray.Length; i++)
-                {
-                    string bookId = bookIdArray[i];
-                    if (bookDictionary.ContainsKey(bookId))
-                    {
-                        bookDictionary[bookId] += 1;
-                    }
-                    else
-                    {
-                        bookDictionary.Add(bookId, 1);
-                    }
-                }
-            }
-
-            return bookDictionary;
+           bookInfo = new BookInfo();
         }
 
         public void OnGet()
         {
             // Read shopping cart items from cookie
-            var bookDictionary = getBookDictionary();
-
+            string cookieValue = Request.Cookies["shopping_cart"] ?? "";
+            var bookDictionary = bookInfo.getBookDictionary(cookieValue);
 
             // action can be null, "add", "sub" or "delete"
             string? action = Request.Query["action"];
@@ -154,11 +133,12 @@ namespace BestShop.Pages
 
             Address = HttpContext.Session.GetString("address") ?? "";
 
-            TempData["Total"] = total.ToString();
+            TempData["Total"] = "" + total;
             TempData["ProductIdentifiers"] = "";
             TempData["DeliveryAddress"] = "";
+            TempData["ClientId"] = "";
+            TempData["PaymentMethod"] = "";
         }
-
 
         public string errorMessage = "";
         public string successMessage = "";
@@ -179,7 +159,8 @@ namespace BestShop.Pages
             }
 
             // Read shopping cart items from cookie
-            var bookDictionary = getBookDictionary();
+            string cookieValue = Request.Cookies["shopping_cart"] ?? "";
+            var bookDictionary = bookInfo.getBookDictionary(cookieValue);
 
             if (bookDictionary.Count < 1)
             {
@@ -191,8 +172,10 @@ namespace BestShop.Pages
             string productIdentifiers = Request.Cookies["shopping_cart"] ?? "";
             TempData["ProductIdentifiers"] = productIdentifiers;
             TempData["DeliveryAddress"] = Address;
+            TempData["ClientId"] = client_id;
+            TempData["PaymentMethod"] = PaymentMethod;
 
-            if (PaymentMethod == "credit_cart" || PaymentMethod == "paypal")
+            if (PaymentMethod == "credit_card" || PaymentMethod == "paypal")
             {
                 Response.Redirect("/Checkout");
                 return;
@@ -234,7 +217,7 @@ namespace BestShop.Pages
                     {
                         string bookID = keyValuePair.Key;
                         int quantity = keyValuePair.Value;
-                        decimal unitPrice = getBookPrice(bookID);
+                        decimal unitPrice = bookInfo.getBookPrice(bookID);
 
                         using (SqlCommand command = new SqlCommand(sqlItem, connection))
                         {
@@ -258,40 +241,6 @@ namespace BestShop.Pages
             Response.Cookies.Delete("shopping_cart");
 
             successMessage = "Order created successfully";
-        }
-
-
-        private decimal getBookPrice(string bookID)
-        {
-            decimal price = 0;
-
-            try
-            {
-                string connectionString = "Data Source=localhost;Initial Catalog=bestshop;Integrated Security=True";
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                    string sql = "SELECT price FROM books WHERE id=@id";
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@id", bookID);
-
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                price = reader.GetDecimal(0);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-
-            return price;
         }
     }
 
